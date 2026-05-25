@@ -135,3 +135,37 @@ void find_string(const char *text) {
         printf("(%d, %d) ", matches_lines[i], matches[i]);
     }
 }
+
+void insert_text(const char *text, int line, int index) {
+    int current_line_index = 0;
+    int current_index = 0;
+    struct Node *current = head;
+
+    while (current != NULL) {
+        if (current_line_index == line && current_index == index) {
+            break;
+        }
+
+        if (current->symbol == '\n') {
+            current_line_index++;
+            current_index = 0;
+        }
+        else {
+            current_index++;
+        }
+    }
+
+    if (current == NULL) {
+        printf("Error: Position out of bounds.\n");
+        return;
+    }
+
+    struct Node *next_nodes = current->next;
+    struct Node *original_tail = tail;
+    tail = current;
+    buffer_append(text);
+    tail->next = next_nodes;
+    if (next_nodes != NULL) {
+        tail = original_tail;
+    }
+}

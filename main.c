@@ -5,6 +5,8 @@
 int main() {
     char input[150];
     char filename[100];
+    int line;
+    int index;
 
     while (1) {
         int command;
@@ -36,14 +38,14 @@ int main() {
 
             case 3:
                 printf("Enter the file name for saving (max. 100 characters): ");
-                scanf("%99s", filename);
+                scanf("%99s", &filename);
                 save_to_file(filename);
                 printf("Saved successfully!");
                 break;
 
             case 4:
                 printf("Enter the file name for loading (max. 100 characters): ");
-                scanf("%99s", filename);
+                scanf("%99s", &filename);
                 load_from_file(filename);
                 printf("Loaded successfully!");
                 break;
@@ -56,6 +58,14 @@ int main() {
                 printf("Enter text to insert (max. 150 characters): ");
                 fgets(input, sizeof(input), stdin);
                 input[strcspn(input, "\n")] = '\0';
+
+                printf("Enter line number: ");
+                scanf("%d", &line);
+                printf("Enter index: ");
+                scanf("%d", &index);
+
+                insert_text(input, line, index);
+                printf("Inserted successfully!");
                 break;
 
             case 7:
