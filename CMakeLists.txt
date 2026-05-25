@@ -3,4 +3,6 @@ project(SimpleTextEditor C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(SimpleTextEditor main.c)
+add_executable(SimpleTextEditor main.c
+        input.c
+        input.h)

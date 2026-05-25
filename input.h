@@ -1,0 +1,10 @@
+//
+// Created by ліна on 21.05.2026.
+//
+
+#ifndef SIMPLETEXTEDITOR_INPUT_H
+#define SIMPLETEXTEDITOR_INPUT_H
+
+
+
+#endif //SIMPLETEXTEDITOR_INPUT_H
