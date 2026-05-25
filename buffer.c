@@ -78,6 +78,8 @@ void load_from_file(const char *filename) {
         char text[2] = {(char)ch, '\0'};
         buffer_append(text);
     }
+
+    fclose(file);
 }
 
 void print_current() {
@@ -85,5 +87,51 @@ void print_current() {
     while (current != NULL) {
         printf("%c", current->symbol);
         current = current->next;
+    }
+}
+
+void find_string(const char *text) {
+    int matches_lines[50];
+    int matches_lines_index = 0;
+    int matches[50];
+    int matches_index = 0;
+
+    int line_index = 0;
+    int index = 0;
+
+    char first_char = text[0];
+    struct Node *current = head;
+    while (current != NULL) {
+        if (current->symbol == '\n') {
+            line_index++;
+            index = 0;
+            current = current->next;
+            continue;
+        }
+        if (first_char == current->symbol) {
+            struct Node *temp = current->next;
+            int is_match = 1;
+            for (int i = 1; i < strlen(text); i++) {
+                if (temp == NULL || temp->symbol != text[i]) {
+                    is_match = 0;
+                    break;
+                }
+                temp = temp->next;
+            }
+
+            if (is_match == 1) {
+                matches_lines[matches_lines_index] = line_index;
+                matches_lines_index++;
+                matches[matches_index] = index;
+                matches_index++;
+            }
+        }
+        current = current->next;
+        index++;
+    }
+
+    printf("Result found on ");
+    for (int i = 0; i < matches_index; i++) {
+        printf("(%d, %d) ", matches_lines[i], matches[i]);
     }
 }

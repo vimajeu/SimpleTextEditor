@@ -38,12 +38,14 @@ int main() {
                 printf("Enter the file name for saving (max. 100 characters): ");
                 scanf("%99s", filename);
                 save_to_file(filename);
+                printf("Saved successfully!");
                 break;
 
             case 4:
                 printf("Enter the file name for loading (max. 100 characters): ");
                 scanf("%99s", filename);
                 load_from_file(filename);
+                printf("Loaded successfully!");
                 break;
 
             case 5:
@@ -51,9 +53,16 @@ int main() {
                 break;
 
             case 6:
+                printf("Enter text to insert (max. 150 characters): ");
+                fgets(input, sizeof(input), stdin);
+                input[strcspn(input, "\n")] = '\0';
                 break;
 
             case 7:
+                printf("Enter string to find (max. 150 characters): ");
+                fgets(input, sizeof(input), stdin);
+                input[strcspn(input, "\n")] = '\0';
+                find_string(input);
                 break;
         }
     }
