@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "buffer.h"
 
 int main() {
     while (1) {
@@ -19,17 +20,15 @@ int main() {
         switch (command) {
             case 1:
                 char input[150];
-
                 printf("Enter text to append (max. 150 characters): ");
                 fgets(input, sizeof(input), stdin);
                 input[strcspn(input, "\n")] = '\0';
-
-                //логіка передачі цього інпуту у файл буфер
-
+                buffer_append(input);
+                printf("Appended successfully!");
                 break;
 
             case 2:
-                
+
                 break;
 
             case 3:
