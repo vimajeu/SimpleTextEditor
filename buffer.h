@@ -7,6 +7,8 @@
 
 void buffer_append(const char *input);
 void new_line();
+void save_to_file(const char *filename);
+void load_from_file(const char *filename);
 void print_current();
 
 #endif //SIMPLETEXTEDITOR_BUFFER_H

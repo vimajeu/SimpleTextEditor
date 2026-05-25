@@ -46,6 +46,40 @@ void new_line() {
     buffer_append("\n");
 }
 
+void save_to_file(const char *filename) {
+    FILE *file = fopen(filename, "w");
+    struct Node *current = head;
+    while (current != NULL) {
+        fputc(current->symbol, file);
+        current = current->next;
+    }
+    fclose(file);
+}
+
+void load_from_file(const char *filename) {
+    struct Node *current = head;
+    while (current != NULL) {
+        struct Node *next = current->next;
+        free(current);
+        current = next;
+    }
+    head = NULL;
+    tail = NULL;
+
+    FILE *file = fopen(filename, "r");
+
+    if (file == NULL) {
+        printf("File not found.");
+        return;
+    }
+
+    int ch;
+    while ((ch = fgetc(file)) != EOF) {
+        char text[2] = {(char)ch, '\0'};
+        buffer_append(text);
+    }
+}
+
 void print_current() {
     struct Node *current = head;
     while (current != NULL) {

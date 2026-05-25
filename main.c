@@ -3,6 +3,9 @@
 #include "buffer.h"
 
 int main() {
+    char input[150];
+    char filename[100];
+
     while (1) {
         int command;
         printf("Hello! It's Simple Text Editor!\n");
@@ -19,7 +22,6 @@ int main() {
 
         switch (command) {
             case 1:
-                char input[150];
                 printf("Enter text to append (max. 150 characters): ");
                 fgets(input, sizeof(input), stdin);
                 input[strcspn(input, "\n")] = '\0';
@@ -33,9 +35,15 @@ int main() {
                 break;
 
             case 3:
+                printf("Enter the file name for saving (max. 100 characters): ");
+                scanf("%99s", filename);
+                save_to_file(filename);
                 break;
 
             case 4:
+                printf("Enter the file name for loading (max. 100 characters): ");
+                scanf("%99s", filename);
+                load_from_file(filename);
                 break;
 
             case 5:
