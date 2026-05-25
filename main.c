@@ -27,7 +27,7 @@ int main() {
         switch (command) {
             case 1:
                 printf("Enter text to append (max. 150 characters): ");
-                fgets(input, sizeof(input), stdin);
+                fgetc(stdin);
                 input[strcspn(input, "\n")] = '\0';
                 buffer_append(input);
                 printf("Appended successfully!\n");
