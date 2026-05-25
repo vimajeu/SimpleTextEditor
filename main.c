@@ -28,7 +28,8 @@ int main() {
                 break;
 
             case 2:
-
+                new_line();
+                printf("New line started successfully!");
                 break;
 
             case 3:

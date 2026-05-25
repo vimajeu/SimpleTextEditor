@@ -40,3 +40,7 @@ void buffer_append(const char *input) {
 
     tail = previous;
 }
+
+void new_line() {
+    buffer_append("\n");
+}
