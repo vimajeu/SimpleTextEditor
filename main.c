@@ -22,32 +22,34 @@ int main() {
 
         scanf("%d", &command);
 
+        while (getchar() != '\n');
+
         switch (command) {
             case 1:
                 printf("Enter text to append (max. 150 characters): ");
                 fgets(input, sizeof(input), stdin);
                 input[strcspn(input, "\n")] = '\0';
                 buffer_append(input);
-                printf("Appended successfully!");
+                printf("Appended successfully!\n");
                 break;
 
             case 2:
                 new_line();
-                printf("New line started successfully!");
+                printf("New line started successfully!\n");
                 break;
 
             case 3:
                 printf("Enter the file name for saving (max. 100 characters): ");
-                scanf("%99s", &filename);
+                scanf("%99s", filename);
                 save_to_file(filename);
-                printf("Saved successfully!");
+                printf("Saved successfully!\n");
                 break;
 
             case 4:
                 printf("Enter the file name for loading (max. 100 characters): ");
-                scanf("%99s", &filename);
+                scanf("%99s", filename);
                 load_from_file(filename);
-                printf("Loaded successfully!");
+                printf("Loaded successfully!\n");
                 break;
 
             case 5:
@@ -64,8 +66,10 @@ int main() {
                 printf("Enter index: ");
                 scanf("%d", &index);
 
+                while (getchar() != '\n');
+
                 insert_text(input, line, index);
-                printf("Inserted successfully!");
+                printf("Inserted successfully!\n");
                 break;
 
             case 7:
@@ -73,6 +77,10 @@ int main() {
                 fgets(input, sizeof(input), stdin);
                 input[strcspn(input, "\n")] = '\0';
                 find_string(input);
+                break;
+
+            default:
+                printf("Unknown command!\n");
                 break;
         }
     }

@@ -88,6 +88,7 @@ void print_current() {
         printf("%c", current->symbol);
         current = current->next;
     }
+    printf("\n");
 }
 
 void find_string(const char *text) {
@@ -130,10 +131,16 @@ void find_string(const char *text) {
         index++;
     }
 
-    printf("Result found on ");
-    for (int i = 0; i < matches_index; i++) {
-        printf("(%d, %d) ", matches_lines[i], matches[i]);
+    if (matches_lines_index != 0) {
+        printf("Result found on ");
+        for (int i = 0; i < matches_index; i++) {
+            printf("(%d, %d) ", matches_lines[i], matches[i]);
+        }
     }
+    else {
+        printf("No result found.");
+    }
+    printf("\n");
 }
 
 void insert_text(const char *text, int line, int index) {
