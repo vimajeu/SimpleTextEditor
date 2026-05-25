@@ -3,6 +3,7 @@
 //
 #include "buffer.h"
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -43,4 +44,12 @@ void buffer_append(const char *input) {
 
 void new_line() {
     buffer_append("\n");
+}
+
+void print_current() {
+    struct Node *current = head;
+    while (current != NULL) {
+        printf("%c", current->symbol);
+        current = current->next;
+    }
 }

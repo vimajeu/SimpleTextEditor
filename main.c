@@ -39,6 +39,7 @@ int main() {
                 break;
 
             case 5:
+                print_current();
                 break;
 
             case 6:

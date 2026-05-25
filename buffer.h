@@ -7,5 +7,6 @@
 
 void buffer_append(const char *input);
 void new_line();
+void print_current();
 
 #endif //SIMPLETEXTEDITOR_BUFFER_H
