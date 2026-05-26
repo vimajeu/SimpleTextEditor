@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "buffer.h"
 
 char* read_input() {
@@ -8,18 +7,26 @@ char* read_input() {
     int length = 0;
     char *buffer = malloc(size);
 
-    int ch;
-    while ((ch = getchar()) != '\n' && ch != EOF) {
-        buffer[length++] = ch;
-        if (length == (size - 1)) {
-            size *= 2;
-            char *temp = realloc(buffer, size);
-            if (temp == NULL) {
-                free(buffer);
-                return NULL;
+    while (1) {
+        int ch;
+        while ((ch = getchar()) != '\n' && ch != EOF) {
+            buffer[length++] = ch;
+            if (length == size - 1) {
+                size *= 2;
+                char *temp = realloc(buffer, size);
+                if (temp == NULL) {
+                    free(buffer);
+                    return NULL;
+                }
+                buffer = temp;
             }
-            buffer = temp;
         }
+        if (buffer[0] == '\0') {
+            printf("String cannot be empty. Try again: ");
+            free(buffer);
+            continue;
+        }
+        break;
     }
     buffer[length] = '\0';
     return buffer;
