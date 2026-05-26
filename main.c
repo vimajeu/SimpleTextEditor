@@ -5,10 +5,11 @@
 char* read_input() {
     int size = 16;
     int length = 0;
-    char *buffer = malloc(size);
+    char *buffer;
 
     while (1) {
         int ch;
+        buffer = malloc(size);
         while ((ch = getchar()) != '\n' && ch != EOF) {
             buffer[length++] = ch;
             if (length == size - 1) {
@@ -21,9 +22,11 @@ char* read_input() {
                 buffer = temp;
             }
         }
-        if (buffer[0] == '\0') {
+        if (length == 0) {
             printf("String cannot be empty. Try again: ");
             free(buffer);
+            length = 0;
+            size = 16;
             continue;
         }
         break;
