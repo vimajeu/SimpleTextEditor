@@ -69,7 +69,7 @@ void load_from_file(const char *filename) {
     FILE *file = fopen(filename, "r");
 
     if (file == NULL) {
-        printf("File not found.");
+        printf("File not found.\n");
         return;
     }
 
@@ -80,6 +80,7 @@ void load_from_file(const char *filename) {
     }
 
     fclose(file);
+    printf("Loaded successfully!\n");
 }
 
 void print_current() {
@@ -176,4 +177,5 @@ void insert_text(const char *text, int line, int index) {
     if (next_nodes != NULL) {
         tail = original_tail;
     }
+    printf("Inserted successfully!\n");
 }

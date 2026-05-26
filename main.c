@@ -80,15 +80,8 @@ int main() {
             case 4:
                 printf("Enter the file name for loading: ");
                 char* filename2 = read_input();
-                FILE *file = fopen(filename2, "r");
-                if (file == NULL) {
-                    printf("File not found.\n");
-                    break;
-                }
-                fclose(file);
                 load_from_file(filename2);
                 free(filename2);
-                printf("Loaded successfully!\n");
                 break;
 
             case 5:
@@ -108,7 +101,6 @@ int main() {
 
                 insert_text(insert, line, index);
                 free(insert);
-                printf("Inserted successfully!\n");
                 break;
 
             case 7:
