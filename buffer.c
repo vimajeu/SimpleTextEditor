@@ -160,6 +160,7 @@ void insert_text(const char *text, int line, int index) {
         else {
             current_index++;
         }
+        current = current->next;
     }
 
     if (current == NULL) {

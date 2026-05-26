@@ -1,10 +1,31 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "buffer.h"
 
+char* read_input() {
+    int size = 16;
+    int length = 0;
+    char *buffer = malloc(size);
+
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF) {
+        buffer[length++] = ch;
+        if (length == (size - 1)) {
+            size *= 2;
+            char *temp = realloc(buffer, size);
+            if (temp == NULL) {
+                free(buffer);
+                return NULL;
+            }
+            buffer = temp;
+        }
+    }
+    buffer[length] = '\0';
+    return buffer;
+}
+
 int main() {
-    char input[150];
-    char filename[100];
     int line;
     int index;
 
@@ -26,10 +47,10 @@ int main() {
 
         switch (command) {
             case 1:
-                printf("Enter text to append (max. 150 characters): ");
-                fgets(input, sizeof(input), stdin);
-                input[strcspn(input, "\n")] = '\0';
+                printf("Enter text to append: ");
+                char* input = read_input();
                 buffer_append(input);
+                free(input);
                 printf("Appended successfully!\n");
                 break;
 
@@ -39,16 +60,18 @@ int main() {
                 break;
 
             case 3:
-                printf("Enter the file name for saving (max. 100 characters): ");
-                scanf("%99s", filename);
+                printf("Enter the file name for saving: ");
+                char* filename = read_input();
                 save_to_file(filename);
+                free(filename);
                 printf("Saved successfully!\n");
                 break;
 
             case 4:
-                printf("Enter the file name for loading (max. 100 characters): ");
-                scanf("%99s", filename);
-                load_from_file(filename);
+                printf("Enter the file name for loading: ");
+                char* filename2 = read_input();
+                load_from_file(filename2);
+                free(filename2);
                 printf("Loaded successfully!\n");
                 break;
 
@@ -57,9 +80,8 @@ int main() {
                 break;
 
             case 6:
-                printf("Enter text to insert (max. 150 characters): ");
-                fgets(input, sizeof(input), stdin);
-                input[strcspn(input, "\n")] = '\0';
+                printf("Enter text to insert: ");
+                char* insert = read_input();
 
                 printf("Enter line number: ");
                 scanf("%d", &line);
@@ -68,15 +90,16 @@ int main() {
 
                 while (getchar() != '\n');
 
-                insert_text(input, line, index);
+                insert_text(insert, line, index);
+                free(insert);
                 printf("Inserted successfully!\n");
                 break;
 
             case 7:
-                printf("Enter string to find (max. 150 characters): ");
-                fgets(input, sizeof(input), stdin);
-                input[strcspn(input, "\n")] = '\0';
-                find_string(input);
+                printf("Enter string to find: ");
+                char* search = read_input();
+                find_string(search);
+                free(search);
                 break;
 
             default:
