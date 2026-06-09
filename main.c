@@ -55,6 +55,7 @@ void free_input(struct ReadInput* input) {
 int main() {
     int line;
     int index;
+    int amount;
 
     while (1) {
         int command;
@@ -125,6 +126,19 @@ int main() {
                 struct ReadInput* search = read_input();
                 find_string(search->text);
                 free_input(search);
+                break;
+
+            case 8:
+                printf("Enter line number: ");
+                scanf("%d", &line);
+                printf("Enter index: ");
+                scanf("%d", &index);
+                printf("Enter amount of characters to delete: ");
+                scanf("%d", &amount);
+
+                while (getchar() != '\n');
+
+                delete(line, index, amount);
                 break;
 
             case 14:

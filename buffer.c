@@ -2,6 +2,8 @@
 // Created by ліна on 25.05.2026.
 //
 #include "buffer.h"
+
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -145,17 +147,33 @@ void find_string(const char *text) {
 }
 
 void insert_text(const char *text, int line, int index) {
+    if (index == 0) {
+        if (line == 0) {
+            struct Node* current_head = head;
+            struct Node* current_tail = tail;
+            head = NULL;
+            tail = NULL;
+            buffer_append(text);
+            tail->next = current_head;
+            tail = current_tail;
+            return;
+        }
+    }
+
     int current_line_index = 0;
     int current_index = 0;
     struct Node *current = head;
 
     while (current != NULL) {
-        if (current_line_index == line && current_index == index) {
+        if (current_line_index == line && current_index == index - 1) {
             break;
         }
 
         if (current->symbol == '\n') {
             current_line_index++;
+            if (index == 0 && current_line_index == line) {
+                break;
+            }
             current_index = 0;
         }
         else {
@@ -180,29 +198,40 @@ void insert_text(const char *text, int line, int index) {
     printf("Inserted successfully!\n");
 }
 
-void replace_text(const char *text, int length, int line, int index) {
+void delete(int line, int index, int amOfSymbols){
+    bool is_first = false;
     int current_line_index = 0;
     int current_index = 0;
     struct Node *current = head;
 
-    while (current != NULL) {
-        if (current_line_index == line && current_index == index - 1) {
-            break;
-        }
-
-        if (current->symbol == '\n') {
-            current_line_index++;
-            current_index = 0;
+    if (index == 0) {
+        if (line == 0) {
+            is_first = true;
         }
         else {
-            current_index++;
+            while (current != NULL) {
+                if (current_line_index == line && current_index == index - 1) {
+                    break;
+                }
+
+                if (current->symbol == '\n') {
+                    current_line_index++;
+                    if (index == 0 && current_line_index == line) {
+                        break;
+                    }
+                    current_index = 0;
+                }
+                else {
+                    current_index++;
+                }
+                current = current->next;
+            }
         }
-        current = current->next;
     }
 
     struct Node *end = current;
     while (end != NULL) {
-        if (current_line_index == line && current_index == index + length) {
+        if (current_line_index == line && current_index == index + amOfSymbols) {
             break;
         }
 
@@ -216,18 +245,25 @@ void replace_text(const char *text, int length, int line, int index) {
         end = end->next;
     }
 
-    if (current == NULL) {
-        printf("Error: Position out of bounds.\n");
-        return;
-    }
+    if (!is_first) {
+        if (current == NULL) {
+            printf("Error: Position out of bounds.\n");
+            return;
+        }
 
-    struct Node *next_nodes = end;
-    struct Node *original_tail = tail;
-    tail = current;
-    buffer_append(text);
-    tail->next = next_nodes;
-    if (next_nodes != NULL) {
-        tail = original_tail;
+        current->next = end;
+        if (end == NULL) {
+            tail = current;
+        }
+        printf("Deleted successfully!\n");
     }
-    printf("Inserted successfully!\n");
+    else {
+        head = end;
+        printf("Deleted successfully!\n");
+    }
 }
+
+// void replace_text(const char *text, int length, int line, int index) {
+//     delete(line, index, length);
+//     insert_text(text, line, index);
+// }
