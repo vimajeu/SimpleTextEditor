@@ -261,7 +261,7 @@ void delete(int line, int index, int amOfSymbols){
     }
 }
 
-// void replace_text(const char *text, int length, int line, int index) {
-//     delete(line, index, length);
-//     insert_text(text, line, index);
-// }
+void replace_text(const char *text, int length, int line, int index) {
+    delete(line, index, length);
+    insert_text(text, line, index);
+}

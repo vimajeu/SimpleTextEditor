@@ -67,6 +67,8 @@ int main() {
         printf("5. Print the current text to console\n");
         printf("6. Insert the text by line and symbol index\n");
         printf("7. Search for words/characters\n");
+        printf("8. Delete characters\n");
+        printf("14. Insert with replacement\n");
         printf("Choose a command: ");
 
         scanf("%d", &command);
@@ -141,20 +143,20 @@ int main() {
                 delete(line, index, amount);
                 break;
 
-            // case 14:
-            //     printf("Enter text to replace: ");
-            //     struct ReadInput* replace = read_input();
-            //
-            //     printf("Enter line number: ");
-            //     scanf("%d", &line);
-            //     printf("Enter index: ");
-            //     scanf("%d", &index);
-            //
-            //     while (getchar() != '\n');
-            //
-            //     replace_text(replace->text, replace->length, line, index);
-            //     free_input(replace);
-            //     break;
+            case 14:
+                printf("Enter text to replace: ");
+                struct ReadInput* replace = read_input();
+
+                printf("Enter line number: ");
+                scanf("%d", &line);
+                printf("Enter index: ");
+                scanf("%d", &index);
+
+                while (getchar() != '\n');
+
+                replace_text(replace->text, replace->length, line, index);
+                free_input(replace);
+                break;
 
 
             default:
