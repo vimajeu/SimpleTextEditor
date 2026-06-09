@@ -179,3 +179,55 @@ void insert_text(const char *text, int line, int index) {
     }
     printf("Inserted successfully!\n");
 }
+
+void replace_text(const char *text, int length, int line, int index) {
+    int current_line_index = 0;
+    int current_index = 0;
+    struct Node *current = head;
+
+    while (current != NULL) {
+        if (current_line_index == line && current_index == index - 1) {
+            break;
+        }
+
+        if (current->symbol == '\n') {
+            current_line_index++;
+            current_index = 0;
+        }
+        else {
+            current_index++;
+        }
+        current = current->next;
+    }
+
+    struct Node *end = current;
+    while (end != NULL) {
+        if (current_line_index == line && current_index == index + length) {
+            break;
+        }
+
+        if (end->symbol == '\n') {
+            current_line_index++;
+            current_index = 0;
+        }
+        else {
+            current_index++;
+        }
+        end = end->next;
+    }
+
+    if (current == NULL) {
+        printf("Error: Position out of bounds.\n");
+        return;
+    }
+
+    struct Node *next_nodes = end;
+    struct Node *original_tail = tail;
+    tail = current;
+    buffer_append(text);
+    tail->next = next_nodes;
+    if (next_nodes != NULL) {
+        tail = original_tail;
+    }
+    printf("Inserted successfully!\n");
+}

@@ -2,14 +2,19 @@
 #include <stdlib.h>
 #include "buffer.h"
 
-char* read_input() {
+struct ReadInput {
+    char *text;
+    int length;
+};
+
+struct ReadInput* read_input() {
     int size = 16;
     int length = 0;
-    char *buffer;
+    char *buffer = malloc(size);
 
     while (1) {
         int ch;
-        buffer = malloc(size);
+        length = 0;
         while ((ch = getchar()) != '\n' && ch != EOF) {
             buffer[length++] = ch;
             if (length == size - 1) {
@@ -24,15 +29,27 @@ char* read_input() {
         }
         if (length == 0) {
             printf("String cannot be empty. Try again: ");
-            free(buffer);
-            length = 0;
-            size = 16;
             continue;
         }
         break;
     }
     buffer[length] = '\0';
-    return buffer;
+
+    struct ReadInput* result = malloc(sizeof(struct ReadInput));
+    if (result == NULL) {
+        free(buffer);
+        return NULL;
+    }
+    result->length = length;
+    result->text = buffer;
+    return result;
+}
+
+void free_input(struct ReadInput* input) {
+    if (input != NULL) {
+        free(input->text);
+        free(input);
+    }
 }
 
 int main() {
@@ -58,9 +75,9 @@ int main() {
         switch (command) {
             case 1:
                 printf("Enter text to append: ");
-                char* input = read_input();
-                buffer_append(input);
-                free(input);
+                struct ReadInput* input = read_input();
+                buffer_append(input->text);
+                free_input(input);
                 printf("Appended successfully!\n");
                 break;
 
@@ -71,17 +88,17 @@ int main() {
 
             case 3:
                 printf("Enter the file name for saving: ");
-                char* filename = read_input();
-                save_to_file(filename);
-                free(filename);
+                struct ReadInput* filename = read_input();
+                save_to_file(filename->text);
+                free_input(filename);
                 printf("Saved successfully!\n");
                 break;
 
             case 4:
                 printf("Enter the file name for loading: ");
-                char* filename2 = read_input();
-                load_from_file(filename2);
-                free(filename2);
+                struct ReadInput* filename2 = read_input();
+                load_from_file(filename2->text);
+                free_input(filename2);
                 break;
 
             case 5:
@@ -90,7 +107,7 @@ int main() {
 
             case 6:
                 printf("Enter text to insert: ");
-                char* insert = read_input();
+                struct ReadInput* insert = read_input();
 
                 printf("Enter line number: ");
                 scanf("%d", &line);
@@ -99,16 +116,32 @@ int main() {
 
                 while (getchar() != '\n');
 
-                insert_text(insert, line, index);
-                free(insert);
+                insert_text(insert->text, line, index);
+                free_input(insert);
                 break;
 
             case 7:
                 printf("Enter string to find: ");
-                char* search = read_input();
-                find_string(search);
-                free(search);
+                struct ReadInput* search = read_input();
+                find_string(search->text);
+                free_input(search);
                 break;
+
+            case 14:
+                printf("Enter text to replace: ");
+                struct ReadInput* replace = read_input();
+
+                printf("Enter line number: ");
+                scanf("%d", &line);
+                printf("Enter index: ");
+                scanf("%d", &index);
+
+                while (getchar() != '\n');
+
+                replace_text(replace->text, replace->length, line, index);
+                free_input(replace);
+                break;
+
 
             default:
                 printf("Unknown command!\n");

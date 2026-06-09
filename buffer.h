@@ -12,5 +12,6 @@ void load_from_file(const char *filename);
 void print_current();
 void find_string(const char *text);
 void insert_text(const char *text, int line, int index);
+void replace_text(const char *text, int length, int line, int index);
 
 #endif //SIMPLETEXTEDITOR_BUFFER_H
