@@ -16,5 +16,6 @@ void replace_text(const char *text, int length, int line, int index);
 void delete(int line, int index, int amOfSymbols);
 void copy(int line, int index, int amount);
 void paste(int line, int index);
+void cut(int line, int index, int amount);
 
 #endif //SIMPLETEXTEDITOR_BUFFER_H

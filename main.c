@@ -68,6 +68,9 @@ int main() {
         printf("6. Insert the text by line and symbol index\n");
         printf("7. Search for words/characters\n");
         printf("8. Delete characters\n");
+        printf("11. Cut\n");
+        printf("12. Paste\n");
+        printf("13. Copy\n");
         printf("14. Insert with replacement\n");
         printf("Choose a command: ");
 
@@ -142,6 +145,20 @@ int main() {
 
                 delete(line, index, amount);
                 break;
+
+            case 11:
+                printf("Enter line number: ");
+                scanf("%d", &line);
+                printf("Enter index: ");
+                scanf("%d", &index);
+                printf("Enter amount of characters to cut: ");
+                scanf("%d", &amount);
+
+                while (getchar() != '\n');
+
+                cut(line, index, amount);
+                break;
+
 
             case 12:
                 printf("Enter line number: ");

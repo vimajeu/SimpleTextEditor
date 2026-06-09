@@ -297,14 +297,21 @@ void copy(int line, int index, int amount) {
         return;
     }
 
-    copied_text = malloc(amount);
+    if (copied_text != NULL) {
+        free(copied_text);
+    }
+    copied_text = malloc(amount + 1);
+    int counter = 0;
     for (int i = 0; i < amount; i++) {
         if (current == NULL) {
             break;
         }
         copied_text[i] = current->symbol;
         current = current->next;
+        counter++;
     }
+    copied_text[counter] = '\0';
+
     printf("Copied successfully!\n");
 }
 
@@ -314,4 +321,9 @@ void paste(int line, int index) {
         return;
     }
     insert_text(copied_text, line, index);
+}
+
+void cut(int line, int index, int amount) {
+    copy(line, index, amount);
+    delete(line, index, amount);
 }
