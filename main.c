@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <_string.h>
+
 #include "buffer.h"
+#include "history.h"
 
 struct ReadInput {
     char *text;
@@ -82,6 +85,7 @@ int main() {
             case 1:
                 printf("Enter text to append: ");
                 struct ReadInput* input = read_input();
+                undo_command(delete_chars, strdup(input->text), input->length, current_line(), current_index());
                 buffer_append(input->text);
                 free_input(input);
                 printf("Appended successfully!\n");
@@ -122,6 +126,8 @@ int main() {
 
                 while (getchar() != '\n');
 
+                undo_command(delete_chars, strdup(insert->text), insert->length, line, index);
+
                 insert_text(insert->text, line, index);
                 free_input(insert);
                 break;
@@ -143,7 +149,13 @@ int main() {
 
                 while (getchar() != '\n');
 
+                undo_command(append_chars, get_text(line, index, amount), amount, line, index);
+
                 delete(line, index, amount);
+                break;
+
+            case 9:
+                undo();
                 break;
 
             case 11:
@@ -156,9 +168,10 @@ int main() {
 
                 while (getchar() != '\n');
 
+                undo_command(append_chars, get_text(line, index, amount), amount, line, index);
+
                 cut(line, index, amount);
                 break;
-
 
             case 12:
                 printf("Enter line number: ");
@@ -167,6 +180,8 @@ int main() {
                 scanf("%d", &index);
 
                 while (getchar() != '\n');
+
+                undo_command(delete_chars, strdup(copied_text), copied_text_length, line, index);
 
                 paste(line, index);
                 break;
@@ -183,7 +198,6 @@ int main() {
 
                 copy(line, index, amount);
                 break;
-
 
             case 14:
                 printf("Enter text to replace: ");

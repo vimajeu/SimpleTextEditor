@@ -9,15 +9,83 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct Node {
-    char symbol;
-    struct Node *next;
-};
-
 static struct Node* head = NULL;
 static struct Node* tail = NULL;
 
 static char* copied_text = NULL;
+int copied_text_length = 0;
+
+int current_line() {
+    int counter = 0;
+    struct Node* current = head;
+    while (current != tail) {
+        if (current->symbol == '\n') {
+            counter++;
+        }
+        current = current->next;
+    }
+    return counter;
+}
+
+int current_index() {
+    int counter = 0;
+    struct Node* current = head;
+    while (current != tail) {
+        if (current->symbol == '\n') {
+            counter = 0;
+            current = current->next;
+            continue;
+        }
+        current = current->next;
+        counter++;
+    }
+    return counter;
+}
+
+char* get_text(int line, int index, int amount) {
+    int current_line_index = 0;
+    int current_index = 0;
+    struct Node *current = head;
+
+    while (current != NULL) {
+        if (current_line_index == line && current_index == index) {
+            break;
+        }
+
+        if (current->symbol == '\n') {
+            current_line_index++;
+            current_index = 0;
+            if (index == 0 && current_line_index == line) {
+                break;
+            }
+        }
+        else {
+            current_index++;
+        }
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Error: Position out of bounds.\n");
+        return NULL;
+    }
+
+    if (copied_text != NULL) {
+        free(copied_text);
+    }
+    char* result = malloc(amount + 1);
+    int counter = 0;
+    for (int i = 0; i < amount; i++) {
+        if (current == NULL) {
+            break;
+        }
+        result[i] = current->symbol;
+        current = current->next;
+        counter++;
+    }
+    result[counter] = '\0';
+    return result;
+}
 
 void buffer_append(const char *input) {
     struct Node *previous = tail;
@@ -148,7 +216,7 @@ void find_string(const char *text) {
     printf("\n");
 }
 
-void insert_text(const char *text, int line, int index) {
+void insert_text(char *text, int line, int index) {
     if (index == 0) {
         if (line == 0) {
             struct Node* current_head = head;
@@ -301,16 +369,16 @@ void copy(int line, int index, int amount) {
         free(copied_text);
     }
     copied_text = malloc(amount + 1);
-    int counter = 0;
+    copied_text_length = 0;
     for (int i = 0; i < amount; i++) {
         if (current == NULL) {
             break;
         }
         copied_text[i] = current->symbol;
         current = current->next;
-        counter++;
+        copied_text_length++;
     }
-    copied_text[counter] = '\0';
+    copied_text[copied_text_length] = '\0';
 
     printf("Copied successfully!\n");
 }
