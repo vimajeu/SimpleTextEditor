@@ -71,6 +71,8 @@ int main() {
         printf("6. Insert the text by line and symbol index\n");
         printf("7. Search for words/characters\n");
         printf("8. Delete characters\n");
+        printf("9. Undo\n");
+        printf("10. Redo\n");
         printf("11. Cut\n");
         printf("12. Paste\n");
         printf("13. Copy\n");
@@ -156,6 +158,10 @@ int main() {
 
             case 9:
                 undo();
+                break;
+
+            case 10:
+                redo();
                 break;
 
             case 11:

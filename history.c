@@ -61,3 +61,28 @@ void undo() {
     }
 }
 
+void redo() {
+    if (redo_stack == NULL) {
+        printf("There's no commands to redo.");
+        return;
+    }
+    Command *current = redo_stack;
+    redo_stack = redo_stack->previous;
+
+    if (current->type == append_chars) {
+        insert_text(current->text, current->line, current->index);
+        current->type = delete_chars;
+    }
+    else {
+        delete(current->line, current->index, current->length);
+        current->type = append_chars;
+    }
+    if (undo_stack == NULL) {
+        undo_stack = current;
+    }
+    else {
+        current->previous = undo_stack;
+        undo_stack = current;
+    }
+}
+

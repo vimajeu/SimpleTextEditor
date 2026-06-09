@@ -21,5 +21,5 @@ typedef struct Command {
 
 void undo_command(CommandType type, char* text, int length, int line_position, int index_position);
 void undo();
-
+void redo();
 #endif //SIMPLETEXTEDITOR_HISTORY_H
