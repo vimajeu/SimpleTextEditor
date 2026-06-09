@@ -143,6 +143,31 @@ int main() {
                 delete(line, index, amount);
                 break;
 
+            case 12:
+                printf("Enter line number: ");
+                scanf("%d", &line);
+                printf("Enter index: ");
+                scanf("%d", &index);
+
+                while (getchar() != '\n');
+
+                paste(line, index);
+                break;
+
+            case 13:
+                printf("Enter line number: ");
+                scanf("%d", &line);
+                printf("Enter index: ");
+                scanf("%d", &index);
+                printf("Enter amount of characters to copy: ");
+                scanf("%d", &amount);
+
+                while (getchar() != '\n');
+
+                copy(line, index, amount);
+                break;
+
+
             case 14:
                 printf("Enter text to replace: ");
                 struct ReadInput* replace = read_input();

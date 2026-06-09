@@ -17,6 +17,8 @@ struct Node {
 static struct Node* head = NULL;
 static struct Node* tail = NULL;
 
+static char* copied_text = NULL;
+
 void buffer_append(const char *input) {
     struct Node *previous = tail;
     struct Node *first_node = malloc(sizeof(struct Node));
@@ -264,4 +266,52 @@ void delete(int line, int index, int amOfSymbols){
 void replace_text(const char *text, int length, int line, int index) {
     delete(line, index, length);
     insert_text(text, line, index);
+    printf("Repaced successfully!\n");
+}
+
+void copy(int line, int index, int amount) {
+    int current_line_index = 0;
+    int current_index = 0;
+    struct Node *current = head;
+
+    while (current != NULL) {
+        if (current_line_index == line && current_index == index) {
+            break;
+        }
+
+        if (current->symbol == '\n') {
+            current_line_index++;
+            current_index = 0;
+            if (index == 0 && current_line_index == line) {
+                break;
+            }
+        }
+        else {
+            current_index++;
+        }
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Error: Position out of bounds.\n");
+        return;
+    }
+
+    copied_text = malloc(amount);
+    for (int i = 0; i < amount; i++) {
+        if (current == NULL) {
+            break;
+        }
+        copied_text[i] = current->symbol;
+        current = current->next;
+    }
+    printf("Copied successfully!\n");
+}
+
+void paste(int line, int index) {
+    if (copied_text == NULL) {
+        printf("There's no copied text to paste.\n");
+        return;
+    }
+    insert_text(copied_text, line, index);
 }
