@@ -141,20 +141,20 @@ int main() {
                 delete(line, index, amount);
                 break;
 
-            case 14:
-                printf("Enter text to replace: ");
-                struct ReadInput* replace = read_input();
-
-                printf("Enter line number: ");
-                scanf("%d", &line);
-                printf("Enter index: ");
-                scanf("%d", &index);
-
-                while (getchar() != '\n');
-
-                replace_text(replace->text, replace->length, line, index);
-                free_input(replace);
-                break;
+            // case 14:
+            //     printf("Enter text to replace: ");
+            //     struct ReadInput* replace = read_input();
+            //
+            //     printf("Enter line number: ");
+            //     scanf("%d", &line);
+            //     printf("Enter index: ");
+            //     scanf("%d", &index);
+            //
+            //     while (getchar() != '\n');
+            //
+            //     replace_text(replace->text, replace->length, line, index);
+            //     free_input(replace);
+            //     break;
 
 
             default:

@@ -12,7 +12,7 @@ void load_from_file(const char *filename);
 void print_current();
 void find_string(const char *text);
 void insert_text(const char *text, int line, int index);
-void replace_text(const char *text, int length, int line, int index);
+// void replace_text(const char *text, int length, int line, int index);
 void delete(int line, int index, int amOfSymbols);
 
 #endif //SIMPLETEXTEDITOR_BUFFER_H

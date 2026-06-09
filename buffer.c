@@ -204,44 +204,42 @@ void delete(int line, int index, int amOfSymbols){
     int current_index = 0;
     struct Node *current = head;
 
-    if (index == 0) {
-        if (line == 0) {
-            is_first = true;
-        }
-        else {
-            while (current != NULL) {
-                if (current_line_index == line && current_index == index - 1) {
+    if (index == 0 && line == 0) {
+        is_first = true;
+    }
+    else {
+        while (current != NULL) {
+            if (current_line_index == line && current_index == index - 1) {
+                break;
+            }
+
+            if (current->symbol == '\n') {
+                current_line_index++;
+                current_index = 0;
+                if (index == 0 && current_line_index == line) {
                     break;
                 }
-
-                if (current->symbol == '\n') {
-                    current_line_index++;
-                    if (index == 0 && current_line_index == line) {
-                        break;
-                    }
-                    current_index = 0;
-                }
-                else {
-                    current_index++;
-                }
-                current = current->next;
             }
+            else {
+                current_index++;
+            }
+            current = current->next;
         }
     }
 
     struct Node *end = current;
+    if (end->symbol == '\n') {
+        end = end->next;
+    }
     while (end != NULL) {
-        if (current_line_index == line && current_index == index + amOfSymbols) {
+        if (current_index == index + amOfSymbols) {
             break;
         }
 
         if (end->symbol == '\n') {
-            current_line_index++;
-            current_index = 0;
+            break;
         }
-        else {
-            current_index++;
-        }
+        current_index++;
         end = end->next;
     }
 
