@@ -18,6 +18,9 @@ int copied_text_length = 0;
 int current_line() {
     int counter = 0;
     struct Node* current = head;
+    if (head == NULL && tail == NULL) {
+        return 0;
+    }
     while (current != tail) {
         if (current->symbol == '\n') {
             counter++;
@@ -88,30 +91,25 @@ char* get_text(int line, int index, int amount) {
 }
 
 void buffer_append(const char *input) {
-    struct Node *previous = tail;
     struct Node *first_node = malloc(sizeof(struct Node));
     first_node->symbol = input[0];
     first_node->next = NULL;
-    if (head == NULL && tail == NULL) {
+
+    if (head == NULL) {
         head = first_node;
         tail = first_node;
-        previous = first_node;
-    }
-    else {
-        previous->next = first_node;
+    } else {
+        tail->next = first_node;
         tail = first_node;
-        previous = first_node;
     }
 
     for (int i = 1; input[i] != '\0'; i++) {
         struct Node *new_node = malloc(sizeof(struct Node));
         new_node->symbol = input[i];
         new_node->next = NULL;
-        previous->next = new_node;
-        previous = new_node;
+        tail->next = new_node;
+        tail = new_node;
     }
-
-    tail = previous;
 }
 
 void new_line() {
@@ -327,6 +325,9 @@ void delete(int line, int index, int amOfSymbols){
     }
     else {
         head = end;
+        if (end == NULL) {
+            tail = NULL;
+        }
         printf("Deleted successfully!\n");
     }
 }

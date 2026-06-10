@@ -26,5 +26,4 @@ void delete(int line, int index, int amOfSymbols);
 void copy(int line, int index, int amount);
 void paste(int line, int index);
 void cut(int line, int index, int amount);
-
 #endif //SIMPLETEXTEDITOR_BUFFER_H
