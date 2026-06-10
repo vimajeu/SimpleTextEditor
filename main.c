@@ -138,10 +138,6 @@ int main() {
 
                 while (getchar() != '\n');
 
-                if (copied_text == NULL) {
-                    printf("There's no copied text to paste.\n");
-                    break;
-                }
                 undo_command(delete_chars, strdup(copied_text), copied_text_length, line, index);
 
                 paste(line, index);
