@@ -3,9 +3,12 @@
 //
 #include "buffer.h"
 #include "history.h"
+
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static Command *undo_stack = NULL;
 static Command *redo_stack = NULL;
@@ -51,9 +54,28 @@ void undo() {
     if (current->type == append_chars) {
         insert_text(current->text, current->line, current->index);
     }
-    else {
+    else if (current->type == delete_chars){
         delete(current->line, current->index, current->length);
     }
+    else {
+        char* pointer = strchr(current->text, '\n');
+
+        if (pointer != NULL) {
+            *pointer = '\0';
+        }
+
+        char* old_text = (pointer != NULL) ? pointer + 1 : NULL;
+
+        delete(current->line, current->index, current->length);
+        if (old_text != NULL) {
+            insert_text(old_text, current->line, current->index);
+        }
+
+        if (pointer != NULL) {
+            *pointer = '\n';
+        }
+    }
+
     if (redo_stack == NULL) {
         redo_stack = current;
     }
@@ -74,9 +96,28 @@ void redo() {
     if (current->type == append_chars) {
         delete(current->line, current->index, current->length);
     }
-    else {
+    else if (current->type == delete_chars) {
         insert_text(current->text, current->line, current->index);
     }
+    else {
+        char* pointer = strchr(current->text, '\n');
+
+        if (pointer != NULL) {
+            *pointer = '\0';
+        }
+
+        char* new_text = current->text;
+        char* old_text = (pointer != NULL) ? pointer + 1 : NULL;
+        int old_length = (old_text != NULL) ? strlen(old_text) : 0;
+
+        delete(current->line, current->index, old_length);
+        insert_text(new_text, current->line, current->index);
+
+        if (pointer != NULL) {
+            *pointer = '\n';
+        }
+    }
+
     if (undo_stack == NULL) {
         undo_stack = current;
     }

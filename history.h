@@ -4,10 +4,12 @@
 
 #ifndef SIMPLETEXTEDITOR_HISTORY_H
 #define SIMPLETEXTEDITOR_HISTORY_H
+#include <stdbool.h>
 
 typedef enum {
     delete_chars,
-    append_chars
+    append_chars,
+    both
 } CommandType;
 
 typedef struct Command {

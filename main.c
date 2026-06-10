@@ -171,10 +171,19 @@ int main() {
 
                 while (getchar() != '\n');
 
+                char* old_text = get_text(line, index, replace->length);
+                int result_len = replace->length + strlen(old_text) + 2;
+                char* result = malloc(result_len);
+                strcpy(result, replace->text);
+                strcat(result, "\n");
+                strcat(result, old_text);
+                free(old_text);
+
+                undo_command(both, result, replace->length, line, index);
+
                 replace_text(replace->text, replace->length, line, index);
                 free_input(replace);
                 break;
-
 
             default:
                 printf("Unknown command!\n");
