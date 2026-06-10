@@ -138,8 +138,6 @@ int main() {
 
                 while (getchar() != '\n');
 
-                undo_command(delete_chars, strdup(copied_text), copied_text_length, line, index);
-
                 paste(line, index);
                 break;
 

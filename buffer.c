@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "history.h"
 
 static struct Node* head = NULL;
 static struct Node* tail = NULL;
@@ -33,14 +34,13 @@ int current_line() {
 int current_index() {
     int counter = 0;
     struct Node* current = head;
-    while (current != tail) {
+    while (current != NULL) {
         if (current->symbol == '\n') {
             counter = 0;
-            current = current->next;
-            continue;
+        } else {
+            counter++;
         }
         current = current->next;
-        counter++;
     }
     return counter;
 }
@@ -73,9 +73,6 @@ char* get_text(int line, int index, int amount) {
         return NULL;
     }
 
-    if (copied_text != NULL) {
-        free(copied_text);
-    }
     char* result = malloc(amount + 1);
     int counter = 0;
     for (int i = 0; i < amount; i++) {
@@ -215,19 +212,17 @@ void find_string(const char *text) {
 }
 
 void insert_text(char *text, int line, int index) {
-    if (index == 0) {
-        if (line == 0) {
-            struct Node* current_head = head;
-            struct Node* current_tail = tail;
-            head = NULL;
-            tail = NULL;
-            buffer_append(text);
-            if (current_head != NULL) {
-                tail->next = current_head;
-                tail = current_tail;
-            }
-            return;
+    if (index == 0 && line == 0) {
+        struct Node* current_head = head;
+        struct Node* current_tail = tail;
+        head = NULL;
+        tail = NULL;
+        buffer_append(text);
+        if (current_head != NULL) {
+            tail->next = current_head;
+            tail = current_tail;
         }
+        return;
     }
 
     int current_line_index = 0;
@@ -391,6 +386,7 @@ void paste(int line, int index) {
         printf("There's no copied text to paste.\n");
         return;
     }
+    undo_command(delete_chars, strdup(copied_text), copied_text_length, line, index);
     insert_text(copied_text, line, index);
 }
 
