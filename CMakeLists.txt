@@ -8,4 +8,6 @@ add_executable(SimpleTextEditor main.c
         buffer.h
         history.c
         history.h
+        input.c
+        input.h
 )
