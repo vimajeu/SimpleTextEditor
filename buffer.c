@@ -222,8 +222,10 @@ void insert_text(char *text, int line, int index) {
             head = NULL;
             tail = NULL;
             buffer_append(text);
-            tail->next = current_head;
-            tail = current_tail;
+            if (current_head != NULL) {
+                tail->next = current_head;
+                tail = current_tail;
+            }
             return;
         }
     }
