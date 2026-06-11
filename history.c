@@ -64,11 +64,18 @@ void undo() {
         insert_text(current->text, current->line, current->index + 1);
     } else {
         char* pointer = strchr(current->text, '\n');
-        if (pointer != NULL) *pointer = '\0';
+        if (pointer != NULL) {
+            *pointer = '\0';
+        }
         char* old_text = (pointer != NULL) ? pointer + 1 : NULL;
         delete(current->line, current->index, current->length);
-        if (old_text != NULL) insert_text(old_text, current->line, current->index);
-        if (pointer != NULL) *pointer = '\n';
+
+        if (old_text != NULL) {
+            insert_text(old_text, current->line, current->index);
+        }
+        if (pointer != NULL) {
+            *pointer = '\n';
+        }
     }
 
     free_command(current);
@@ -97,13 +104,17 @@ void redo() {
         delete(current->line, current->index, current->length);
     } else {
         char* pointer = strchr(current->text, '\n');
-        if (pointer != NULL) *pointer = '\0';
+        if (pointer != NULL) {
+            *pointer = '\0';
+        }
         char* new_text = current->text;
         char* old_text = (pointer != NULL) ? pointer + 1 : NULL;
         int old_length = (old_text != NULL) ? strlen(old_text) : 0;
         delete(current->line, current->index, old_length);
         insert_text(new_text, current->line, current->index);
-        if (pointer != NULL) *pointer = '\n';
+        if (pointer != NULL) {
+            *pointer = '\n';
+        }
     }
 
     free_command(current);
