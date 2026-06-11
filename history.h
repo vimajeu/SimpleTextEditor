@@ -7,8 +7,8 @@
 #include <stdbool.h>
 
 typedef enum {
-    delete_chars,
-    append_chars,
+    undo_by_inserting,
+    undo_by_deleting,
     both
 } CommandType;
 

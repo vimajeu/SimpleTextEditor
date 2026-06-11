@@ -386,7 +386,7 @@ void paste(int line, int index) {
         printf("There's no copied text to paste.\n");
         return;
     }
-    undo_command(delete_chars, strdup(copied_text), copied_text_length, line, index);
+    undo_command(undo_by_deleting, strdup(copied_text), copied_text_length, line, index);
     insert_text(copied_text, line, index);
 }
 

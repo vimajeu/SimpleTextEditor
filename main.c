@@ -38,8 +38,10 @@ int main() {
             case 1:
                 printf("Enter text to append: ");
                 struct ReadInput* input = read_input();
-                undo_command(delete_chars, strdup(input->text), input->length, current_line(), current_index());
+                int snap_line = current_line();
+                int snap_index = current_index();
                 buffer_append(input->text);
+                undo_command(undo_by_deleting, strdup(input->text), input->length, snap_line, snap_index);
                 free_input(input);
                 printf("Appended successfully!\n");
                 break;
@@ -79,7 +81,7 @@ int main() {
 
                 while (getchar() != '\n');
 
-                undo_command(delete_chars, strdup(insert->text), insert->length, line, index);
+                undo_command(undo_by_deleting, strdup(insert->text), insert->length, line, index);
 
                 insert_text(insert->text, line, index);
                 free_input(insert);
@@ -102,8 +104,7 @@ int main() {
 
                 while (getchar() != '\n');
 
-                undo_command(append_chars, get_text(line, index, amount), amount, line, index);
-
+                undo_command(undo_by_inserting, get_text(line, index, amount), amount, line, index);
                 delete(line, index, amount);
                 break;
 
@@ -125,7 +126,7 @@ int main() {
 
                 while (getchar() != '\n');
 
-                undo_command(append_chars, get_text(line, index, amount), amount, line, index);
+                undo_command(undo_by_inserting, get_text(line, index, amount), amount, line, index);
 
                 cut(line, index, amount);
                 break;
